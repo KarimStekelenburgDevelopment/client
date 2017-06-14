@@ -5,9 +5,15 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import Auth from './packages/auth/Auth.js'
+import Notify from './packages/notify/Notify.js'
+import Modal from './packages/modal/Modals.js'
 
-Vue.use(VueResource)
-Vue.use(Auth)
+import '../node_modules/jquery/dist/jquery.min'
+
+Vue.use(VueResource);
+Vue.use(Auth);
+Vue.use(Notify);
+Vue.use(Modal);
 
 router.beforeEach(
   (to, from, next) => {

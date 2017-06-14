@@ -1,12 +1,24 @@
 <template>
-  <router-view></router-view>
+  <div class="wrapper">
+
+    <router-view></router-view>
+
+    <notification></notification>
+    <Modal></Modal>
+  </div>
 </template>
 
 <script>
+  import Notification from './views/Notification.vue'
+  import Modal from './views/modals/Modals.vue'
 
-export default {
-  name: 'app'
-}
+  export default {
+    name: 'app',
+    components: {
+      Notification,
+      Modal
+    }
+  }
 </script>
 <!--
 <style>

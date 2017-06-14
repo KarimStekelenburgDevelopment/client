@@ -7,7 +7,9 @@
         <a class="nav-link navbar-toggler sidebar-toggler" href="#" @click="sidebarToggle">&#9776;</a>
       </li>
     </ul>
-    <button id="logoutButton" type="button" class="btn btn-primary" v-on:click='logout'>Log out</button>
+    <button v-if="this.$auth.isAuthenticated()" id="logoutButton" type="button" class="btn btn-primary"
+            v-on:click='logout'>Log
+      out</button>
   </navbar>
 </template>
 <script>

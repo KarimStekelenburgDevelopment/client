@@ -1,14 +1,15 @@
 <template xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
   <div id="container">
+
     <form v-on:submit="validateRequest">
       <div class="form-group" v-bind:class="usernameStateClass">
-        <label for="exampleInputEmail1">Username</label>
-        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        <label for="usernameField">Username</label>
+        <input type="text" class="form-control" id="usernameField" aria-describedby="emailHelp"
                placeholder="username" v-model="user.username">
       </div>
       <div class="form-group" v-bind:class="passwordStateClass">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password"
+        <label for="passwordField">Password</label>
+        <input type="password" class="form-control" id="passwordField" placeholder="Password"
                v-model="user.password">
       </div>
       <div class="form-group">
@@ -20,14 +21,8 @@
         </select>
       </div>
 
-
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-
-
-    <div v-show="errorBool" class="alert alert-danger" role="alert">
-      <strong>Oops!</strong> {{errorMessage}}
-    </div>
+      <button v-on:click="validateRequest" type="button" class="btn btn-primary">Add user</button>
+      </form>
 
 
 
@@ -36,6 +31,8 @@
 </template>
 
 <script>
+  import {EventBus} from '../event_bus/global-event-bus';
+
   export default {
     name: 'app-user-add-form',
     data () {
@@ -49,14 +46,20 @@
       }
     },
     methods: {
+
+      clearFields () {
+        document.getElementById("usernameField").value = "";
+        document.getElementById("passwordField").value = "";
+      },
+
       fetchRoles () {
         this.$http.get(
-          'http://localhost:8080/role',
-          {
-            headers: {
-              'Authorization': this.$auth.getToken()
-            }
-          }
+                'http://localhost:8080/role',
+                {
+                  headers: {
+                    'Authorization': this.$auth.getToken()
+                  }
+                }
         )
                 .then(function (response) {
                   this.roles = response.body
@@ -64,25 +67,23 @@
       },
 
       validateRequest: function (e) {
-        function checkPassword (str) {
+        function checkPassword(str) {
           var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
           return re.test(str)
         }
 
         if (!this.user.username || !this.user.password) {
-          this.errorMessage = 'Looks like you forgot something. Try again!'
-          this.errorBool = true
+          this.$notify.alert('Oops!', 'Looks like you forgot something. Try again!', 'alert-danger')
         } else {
           var re = /^\w+$/
           if (!re.test(this.user.username)) {
-            this.errorMessage = 'Username must contain only letters, numbers and underscores. ' +
-                    'Try Again!'
-            this.errorBool = true
+            this.$notify.alert('Oops!', 'Username must contain only letters, numbers and underscores. ' +
+                    'Try Again!', 'alert-danger')
           } else {
             if (!checkPassword(this.user.password)) {
-              this.errorMessage = 'Password has a minimum of six characters and must contain ' +
-                      'both letters and numbers'
-              this.errorBool = true
+              this.$notify.alert('Oops!', 'Password has a minimum of six characters and must contain ' +
+                      'both letters and numbers', 'alert-danger')
+
             } else {
               let newUser = {
                 username: this.user.username,
@@ -101,11 +102,17 @@
                         console.log(response.body.error)
                         if (response.body.error) {
                           var error = response.body.error.split(':')
+                          this.$notify.alert('alert-danger', error[0])
 
-                          this.errorMessage = error[0]
-                          this.errorBool = true
+                        } else {
+
+                          this.errorBool = false;
+                          this.$router.push({path: '/', query: {alert: 'Customer Added'}})
+                          this.$notify.alert('Success!','user added', 'alert-success')
+
+                          this.clearFields();
+
                         }
-                        this.$router.push({path: '/', query: {alert: 'Customer Added'}})
                       })
 
               e.preventDefault()
@@ -122,8 +129,22 @@
 </script>
 
 <style scoped>
+
+  #container {
+    margin: 15px;
+  }
+
   label {
     float: left;
+  }
+
+  input {
+
+  }
+
+  form {
+    margin: 0 auto;
+    width: 80%;
   }
 
   .alert {

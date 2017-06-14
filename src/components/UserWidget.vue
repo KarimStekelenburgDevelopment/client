@@ -1,23 +1,25 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div class="card text-center">
-    <div class="card-header">
-      <ul class="nav nav-tabs card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link" v-bind:class="{ active: active.overview }" href="#"
-             v-on:click="setSelection('overview')">Overview
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" v-on:click="setSelection('add')" v-bind:class="{ active: active.add }">Add</a>
-        </li>
+  <div id="container">
+    <div class="card text-center">
+      <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link" v-bind:class="{ active: active.overview }" href="#"
+               v-on:click="setSelection('overview')">Overview
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" v-on:click="setSelection('add')" v-bind:class="{ active: active.add }">Add</a>
+          </li>
 
-      </ul>
-    </div>
+        </ul>
+      </div>
 
-    <div class="card-block">
-      <!--<h4 class="card-title">Special title treatment</h4>-->
-      <UserTable v-if="(selection === 'overview')"/>
-      <UserAddForm v-if="(selection === 'add')"/>
+      <div class="card-block">
+        <!--<h4 class="card-title">Special title treatment</h4>-->
+        <UserTable v-if="(selection === 'overview')"/>
+        <UserAddForm v-if="(selection === 'add')"/>
+      </div>
     </div>
   </div>
 </template>
@@ -66,7 +68,13 @@
 </script>
 
 <style scoped>
-  .card-block{
+
+  #container{
+    width: 500px;
+  }
+
+
+  .card-block {
     padding: 0;
     /*padding-top: 100px;*/
   }

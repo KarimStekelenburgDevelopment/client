@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 // Containers
-import Full from '@/containers/Full'
+import Full from '../containers/Full.vue'
 
 // Views
 import Dashboard from '@/views/Dashboard'
