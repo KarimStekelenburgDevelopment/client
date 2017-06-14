@@ -64,7 +64,7 @@
             password: this.user.password
           }
 
-          this.$http.post('http://localhost:8080/login', loginRequest)
+          this.$http.post('login', loginRequest)
                   .then(response => {
                     if (response.body.error) {
                       this.$notify.alert('Oops!',

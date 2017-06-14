@@ -7,6 +7,7 @@ import VueResource from 'vue-resource'
 import Auth from './packages/auth/Auth.js'
 import Notify from './packages/notify/Notify.js'
 import Modal from './packages/modal/Modals.js'
+import Update from './packages/updater/Update.js'
 
 import '../node_modules/jquery/dist/jquery.min'
 
@@ -14,6 +15,10 @@ Vue.use(VueResource);
 Vue.use(Auth);
 Vue.use(Notify);
 Vue.use(Modal);
+Vue.use(Update);
+
+Vue.http.options.root = 'http://localhost:8080';
+// Vue.http.options.root = 'https://mysterious-woodland-66869.herokuapp.com';
 
 router.beforeEach(
   (to, from, next) => {

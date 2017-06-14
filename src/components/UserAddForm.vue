@@ -41,8 +41,6 @@
         roles: [],
         usernameStateClass: '',
         passwordStateClass: '',
-        errorBool: false,
-        errorMessage: ''
       }
     },
     methods: {
@@ -54,7 +52,7 @@
 
       fetchRoles () {
         this.$http.get(
-                'http://localhost:8080/role',
+                'role',
                 {
                   headers: {
                     'Authorization': this.$auth.getToken()
@@ -93,7 +91,7 @@
                 }
               }
 
-              this.$http.post('http://localhost:8080/user', newUser, {
+              this.$http.post('user', newUser, {
                 headers: {
                   'Authorization': this.$auth.getToken()
                 }

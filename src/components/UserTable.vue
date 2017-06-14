@@ -6,9 +6,9 @@
       <thead>
       <tr>
         <th class="tableText" style="width: auto;">ID</th>
-        <th class="tableText" style="width: auto;">Username</th>
-        <th class="tableText">Function</th>
-        <th class="tableText"></th>
+        <th class="" style="width: auto;">Username</th>
+        <th class="">Function</th>
+        <th class=""></th>
       </tr>
       </thead>
       <!--<div id="tableBody">-->
@@ -16,15 +16,15 @@
         <tbody>
         <tr v-for="user in filterBy(users, filterInput)">
           <td class="tableText">{{user.id}}</td>
-          <td class="tableText" style="max-width: 2vw; word-break: break-all;">{{user.username}}</td>
-          <td class="tableText">{{user.role.name}}</td>
-          <td class="tableText">
-            <button type="button" class="btn btn-primary" @click="setUserEditModal(user.id)">View</button>
+          <td class="" style="max-width: 2vw; word-break: break-all;">{{user.username}}</td>
+          <td class="">{{user.role.name}}</td>
+          <td class=" vertAlign">
+            <button type="button" class="btn btn-primary btn-sm" @click="setUserEditModal(user.id)">View</button>
 
             <!--<button type="button" class="btn btn-primary">Primary</button>-->
           </td>
-          <td class="tableText">
-            <router-link class="btn btn-default" v-bind:to="'/users/'+user.id">Delete</router-link>
+          <td class=" vertAlign">
+            <button type="button" class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Delete</button>
             <!--<button type="button" class="btn btn-primary">Primary</button>-->
           </td>
         </tr>
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+  import {EventBus} from '../event_bus/global-event-bus';
+
 
   export default {
     name: 'app-user-table',
@@ -48,6 +50,26 @@
       }
     },
     methods: {
+
+      deleteUser (userId) {
+        this.$http.delete(
+                'user/'+userId,
+                {
+                  headers: {
+                    'Authorization': this.$auth.getToken()
+                  }
+                }
+        )
+                .then(function (response) {
+                  if (response.body.error) {
+                    this.$notify.alert('Oops!', response.body.error, 'alert-danger')
+                  } else {
+                    this.$notify.alert('Success!', 'User removed.', 'alert-success')
+                    this.fetchUsers();
+                  }
+                })
+      },
+
       setUserEditModal (userId){
         console.log(userId)
         this.$modals.showEditUserModel(userId);
@@ -55,7 +77,7 @@
 
       fetchUsers () {
         this.$http.get(
-                'http://localhost:8080/user',
+                'user',
                 {
                   headers: {
                     'Authorization': this.$auth.getToken()
@@ -78,20 +100,29 @@
     },
     created: function () {
       this.fetchUsers()
+      EventBus.$on('update-user-table', () => {
+        this.fetchUsers()
+      })
     }
-
   }
 </script>
 
 <style scoped>
+  .vertAlign{
+    margin: auto;
+    vertical-align: middle;
+  }
+
   #container {
     height: 50vh;
     overflow: auto;
   }
 
   .tableText {
+    /*margin: 0 auto;*/
     padding-left: 30px;
-    text-align: left;
+    /*text-align: left;*/
+    /*padding: 0 auto;*/
   }
 
   table thead tr th {
@@ -99,6 +130,7 @@
   }
 
   table tbody tr td {
+    text-align: left;
     margin-top: 15px;
   }
 </style>

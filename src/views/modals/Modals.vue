@@ -1,33 +1,42 @@
 <template>
 
-    <modal title="Modal title" v-model="myModal" @ok="myModal = false" effect="fade/zoom">
+    <modal :callback="updateUser" cancel-text="Dismiss" title="Modal title" v-model="myModal" @ok="myModal = false"
+           effect="fade/zoom">
       <div slot="modal-header" class="modal-header">
         <h4 class="modal-title">Modal title</h4>
       </div>
+
+      <label for="userId">User ID:&nbsp;</label>
+      <label id="userId">{{userEditModalDataObject.userInfo.userId}}</label>
       <form @submit="updateUser">
+        <!--Ugly fix to avoid chrome from autofilling password field-->
+        <input style="display:none">
+        <input type="password" style="display:none">
+
         <div class="form-group">
-          <label for="usernameField">Username</label>
+          <label for="usernameField">Username:</label>
           <input type="text" class="form-control" id="usernameField"
                  v-bind:placeholder="userEditModalDataObject.userInfo.username"
                  v-model="userEditModalDataObject.userInfo.username">
         </div>
         <div class="form-group">
-          <label for="passwordField">Password</label>
+
+          <label for="passwordField">Password:&nbsp;</label>
           <input autocomplete="off" type="password" class="form-control" id="passwordField"
                  v-bind:placeholder="userEditModalDataObject.userInfo.password"
                  v-model="userEditModalDataObject.userInfo.password">
+          <input type="checkbox" id="checkbox" v-model="updatePassword">
+          <label for="checkbox" style="font-weight: normal"> set new password</label>
         </div>
         <div class="form-group">
-          <label for="exampleSelect1">Example select</label>
-          <select class="form-control" id="exampleSelect1" v-model="userEditModalDataObject.allRoles">
-            <option v-for="role in userEditModalDataObject.allRoles"
-                    :value="role.id">
+          <label for="exampleSelect1">Function:</label>
+          <select class="form-control" id="exampleSelect1" v-model="userEditModalDataObject.userInfo.role.id">
+            <option v-for="role in allRoles"
+                    :value="role.id" :selected="role.id === userEditModalDataObject.userInfo.role.id">
               {{ role.name }}
             </option>
           </select>
         </div>
-
-        <button @click="updateUser" type="button" class="btn btn-primary">Add user</button>
       </form>
     </modal>
 
@@ -45,13 +54,17 @@ export default {
   },
   data () {
     return {
+      updatePassword: false,
+      allRoles: [],
       userEditModalDataObject: {
-        allRoles: [],
         userInfo: {
           userId: null,
           username: null,
-          password: "",
-          role: null,
+          password: null,
+          role: {
+            id: null,
+            name: null
+          },
         }
     },
       myModal: false,
@@ -68,7 +81,7 @@ export default {
 
     fetchRoles () {
       this.$http.get(
-              'http://localhost:8080/role',
+              'role',
               {
                 headers: {
                   'Authorization': this.$auth.getToken()
@@ -77,13 +90,13 @@ export default {
       )
               .then(function (response) {
                 console.log(response.body)
-                this.userEditModalDataObject.allRoles = response.body
+                this.allRoles = response.body
               })
     },
 
     initUserEditModal(){
       this.$http.get(
-              'http://localhost:8080/user/'+this.userEditModalDataObject.userInfo.userId,
+              'user/'+this.userEditModalDataObject.userInfo.userId,
               {
                 headers: {
                   'Authorization': this.$auth.getToken()
@@ -98,17 +111,47 @@ export default {
     },
 
     updateUser(){
+    console.log(this.userEditModalDataObject.userInfo.role.id)
 
+      let updatedUser = {
+        id: this.userEditModalDataObject.userInfo.userId,
+        username: this.userEditModalDataObject.userInfo.username,
+        password: this.userEditModalDataObject.userInfo.password,
+        role: this.userEditModalDataObject.userInfo.role
+      };
+
+      if (this.updatePassword == true){
+        updatedUser.password = this.userEditModalDataObject.userInfo.password;
+      }
+
+      this.$http.put('user', updatedUser, {
+        headers: {
+          'Authorization': this.$auth.getToken()
+        }
+      })
+              .then(function (response) {
+                if (response.body.error) {
+                  var error = response.body.error.split(':')
+                  this.$notify.alert('alert-danger', error[0])
+
+                } else {
+
+                  this.$router.push({path: '/', query: {alert: 'User_Updated'}})
+                  this.$notify.alert('Success!','User information updated', 'alert-success')
+                  this.$update.userTable();
+
+                  this.clearFields();
+
+                }
+              })
     }
   },
 
   mounted() {
     EventBus.$on('user-edit-modal', userId => {
-      this.fetchRoles();
       this.userEditModalDataObject.userInfo.userId = userId;
-
+      this.fetchRoles();
       this.initUserEditModal();
-      console.log("joijdoijd"+this.userEditModalDataObject.allRoles)
       this.myModal = true;
 
     })
@@ -117,6 +160,15 @@ export default {
 </script>
 
 <style>
+
+  label{
+    font-weight: bold;
+  }
+
+  #userId{
+    font-weight: normal;
+  }
+
   /*#wrapper{*/
     /*z-index: 1;*/
     /*position: fixed;*/
