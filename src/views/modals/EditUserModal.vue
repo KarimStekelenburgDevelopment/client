@@ -1,6 +1,5 @@
 <template>
-
-    <modal :callback="updateUser" cancel-text="Dismiss" title="Modal title" v-model="myModal" @ok="myModal = false"
+    <modal :callback="updateUser" cancel-text="Dismiss" title="Edit user" v-model="showModal" @ok="showModal = false"
            effect="fade/zoom">
       <div slot="modal-header" class="modal-header">
         <h4 class="modal-title">Modal title</h4>
@@ -17,7 +16,7 @@
           <label for="usernameField">Username:</label>
           <input type="text" class="form-control" id="usernameField"
                  v-bind:placeholder="userEditModalDataObject.userInfo.username"
-                 v-model="userEditModalDataObject.userInfo.username">
+                 v-model="userEditModalDataObject.userInfo.username" autocapitalize="none">
         </div>
         <div class="form-group">
 
@@ -25,7 +24,7 @@
           <input autocomplete="off" type="password" class="form-control" id="passwordField"
                  v-bind:placeholder="userEditModalDataObject.userInfo.password"
                  v-model="userEditModalDataObject.userInfo.password">
-          <input type="checkbox" id="checkbox" v-model="updatePassword">
+          <input type="checkbox" id="checkbox" v-model="updatePassword" autocapitalize="none">
           <label for="checkbox" style="font-weight: normal"> set new password</label>
         </div>
         <div class="form-group">
@@ -40,7 +39,6 @@
       </form>
     </modal>
 
-
 </template>
 
 <script>
@@ -48,7 +46,7 @@ import modal from 'vue-strap/src/Modal'
 import { EventBus } from '../../event_bus/global-event-bus';
 
 export default {
-  name: 'modals',
+  name: 'EditUserModal',
   components: {
     modal
   },
@@ -67,14 +65,7 @@ export default {
           },
         }
     },
-      myModal: false,
-      largeModal: false,
-      smallModal: false,
-      primaryModal: false,
-      successModal: false,
-      warningModal: false,
-      dangerModal: false,
-      infoModal: false
+      showModal: false,
     }
   },
   methods:{
@@ -89,7 +80,6 @@ export default {
               }
       )
               .then(function (response) {
-                console.log(response.body)
                 this.allRoles = response.body
               })
     },
@@ -104,14 +94,12 @@ export default {
               }
       )
               .then(function (response) {
-                console.log(response)
                 this.userEditModalDataObject.userInfo.username = response.body.username;
                 this.userEditModalDataObject.userInfo.role = response.body.role;
               })
     },
 
     updateUser(){
-    console.log(this.userEditModalDataObject.userInfo.role.id)
 
       let updatedUser = {
         id: this.userEditModalDataObject.userInfo.userId,
@@ -152,7 +140,7 @@ export default {
       this.userEditModalDataObject.userInfo.userId = userId;
       this.fetchRoles();
       this.initUserEditModal();
-      this.myModal = true;
+      this.showModal = true;
 
     })
   }

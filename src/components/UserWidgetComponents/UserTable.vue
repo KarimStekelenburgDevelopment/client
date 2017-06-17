@@ -1,43 +1,49 @@
 <template>
-
-  <div id="container">
+  <div class="tableEnclosure">
 
     <table class="table table-sm table-responsive">
+
+      <col align="left">
+      <col align="left">
+      <col align="left">
+      <col align="left">
+      <col align="left">
+
       <thead>
       <tr>
-        <th class="tableText" style="width: auto;">ID</th>
-        <th class="" style="width: auto;">Username</th>
+        <th class="tableText">ID</th>
+        <th class="">Username</th>
         <th class="">Function</th>
+        <th class=""></th>
         <th class=""></th>
       </tr>
       </thead>
       <!--<div id="tableBody">-->
 
-        <tbody>
-        <tr v-for="user in filterBy(users, filterInput)">
-          <td class="tableText">{{user.id}}</td>
-          <td class="" style="max-width: 2vw; word-break: break-all;">{{user.username}}</td>
-          <td class="">{{user.role.name}}</td>
-          <td class=" vertAlign">
-            <button type="button" class="btn btn-primary btn-sm" @click="setUserEditModal(user.id)">View</button>
+      <tbody>
+      <tr v-for="user in filterBy(users, filterInput)">
+        <td class="tableText">{{user.id}}</td>
+        <td class="" style="word-break: break-all;">{{user.username}}</td>
+        <td class="">{{user.role.name}}</td>
+        <td class=" vertAlign">
+          <button type="button" class="btn btn-primary btn-sm" @click="showUserEditModal(user.id)">Edit</button>
 
-            <!--<button type="button" class="btn btn-primary">Primary</button>-->
-          </td>
-          <td class=" vertAlign">
-            <button type="button" class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Delete</button>
-            <!--<button type="button" class="btn btn-primary">Primary</button>-->
-          </td>
-        </tr>
-        </tbody>
+          <!--<button type="button" class="btn btn-primary">Primary</button>-->
+        </td>
+        <td class=" vertAlign">
+          <button type="button" class="btn btn-danger btn-sm" @click="deleteUser(user.id)">Delete</button>
+          <!--<button type="button" class="btn btn-primary">Primary</button>-->
+        </td>
+      </tr>
+      </tbody>
       <!--</div>-->
     </table>
-
 
   </div>
 </template>
 
 <script>
-  import {EventBus} from '../event_bus/global-event-bus';
+  import {EventBus} from '../../event_bus/global-event-bus';
 
 
   export default {
@@ -53,7 +59,7 @@
 
       deleteUser (userId) {
         this.$http.delete(
-                'user/'+userId,
+                'user/' + userId,
                 {
                   headers: {
                     'Authorization': this.$auth.getToken()
@@ -70,9 +76,9 @@
                 })
       },
 
-      setUserEditModal (userId){
-        console.log(userId)
-        this.$modals.showEditUserModel(userId);
+      showUserEditModal (userId){
+        this.$modals.showEditUserModal(userId);
+
       },
 
       fetchUsers () {
@@ -86,7 +92,6 @@
         )
                 .then(function (response) {
 
-                  console.log(response.body)
                   this.users = response.body
                 })
       },
@@ -108,29 +113,41 @@
 </script>
 
 <style scoped>
-  .vertAlign{
+
+
+  .vertAlign {
     margin: auto;
     vertical-align: middle;
   }
 
-  #container {
-    height: 50vh;
-    overflow: auto;
+  table {
+    /*min-width: 20vw;*/
+    /*min-height: 20vh;*/
+
+    /*max-width: 30vw;*/
+    /*max-height: 30vh;*/
+
   }
 
-  .tableText {
-    /*margin: 0 auto;*/
-    padding-left: 30px;
-    /*text-align: left;*/
-    /*padding: 0 auto;*/
-  }
-
-  table thead tr th {
+  table thead tr th{
+    max-width: 2%;
     border-top-style: none;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto
   }
 
   table tbody tr td {
     text-align: left;
     margin-top: 15px;
+    border-top-style: solid;
   }
+
+
 </style>

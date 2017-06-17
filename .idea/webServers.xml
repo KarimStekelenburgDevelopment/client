@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ad9907e3-df97-4141-b104-4fcb162508b2" name="HigherSocieties" url="http://highersocieties.com">
+        <fileTransfer host="highersocieties.com" port="21" rootFolder="/domains/highersocieties.com/public_html" password="df99dfdbdfd3dfdadfd8dfc0dfc6dfdcdfd2df9d" username="highe49">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

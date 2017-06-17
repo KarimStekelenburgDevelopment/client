@@ -13,12 +13,12 @@
                   <div class="input-group mb-3">
                     <span class="input-group-addon"><i class="icon-user"></i></span>
                     <input type="text" class="form-control" placeholder="Username" v-model="user.username"
-                           v-on:keyup="keymonitor">
+                           v-on:keyup="keymonitor" autocapitalize="none">
                   </div>
                   <div class="input-group mb-4">
                     <span class="input-group-addon"><i class="icon-lock"></i></span>
                     <input type="password" class="form-control" placeholder="Password" v-model="user.password"
-                           v-on:keyup="keymonitor">
+                           v-on:keyup="keymonitor" autocapitalize="none">
                   </div>
                   <div class="row">
                     <div class="col-6">
@@ -86,13 +86,16 @@
 
       },
       hideError(){
-        this.errorBool = false;
       }
     },
 
   }
 </script>
 <style scoped>
+  #container{
+    /*min-height: 60vh;*/
+    height: 20vh;
+  }
 
   #errorMessage {
     text-align: center;

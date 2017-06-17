@@ -5,15 +5,15 @@
       <div class="form-group" v-bind:class="usernameStateClass">
         <label for="usernameField">Username</label>
         <input type="text" class="form-control" id="usernameField" aria-describedby="emailHelp"
-               placeholder="username" v-model="user.username">
+               placeholder="username" v-model="user.username" autocapitalize="none">
       </div>
       <div class="form-group" v-bind:class="passwordStateClass">
         <label for="passwordField">Password</label>
         <input type="password" class="form-control" id="passwordField" placeholder="Password"
-               v-model="user.password">
+               v-model="user.password" autocapitalize="none">
       </div>
       <div class="form-group">
-        <label for="exampleSelect1">Example select</label>
+        <label for="exampleSelect1">Function</label>
         <select class="form-control" id="exampleSelect1" v-model="user.role">
           <option v-for="role in roles" v-bind:value="role.id">
             {{ role.name }}
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-  import {EventBus} from '../event_bus/global-event-bus';
+  import {EventBus} from '../../event_bus/global-event-bus';
 
   export default {
     name: 'app-user-add-form',
@@ -97,7 +97,6 @@
                 }
               })
                       .then(function (response) {
-                        console.log(response.body.error)
                         if (response.body.error) {
                           var error = response.body.error.split(':')
                           this.$notify.alert('alert-danger', error[0])
@@ -129,7 +128,7 @@
 <style scoped>
 
   #container {
-    margin: 15px;
+    padding: 15px;
   }
 
   label {

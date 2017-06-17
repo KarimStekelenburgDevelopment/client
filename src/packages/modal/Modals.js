@@ -6,8 +6,14 @@ import {EventBus} from '../../event_bus/global-event-bus';
 
 export default function (Vue) {
   Vue.modals = {
-    showEditUserModel (userId){
+    showEditUserModal (userId){
       EventBus.$emit('user-edit-modal', userId);
+    },
+    showEditTableModal (tableId){
+      EventBus.$emit('table-edit-modal', tableId);
+    },
+    showAddTableModal (areaId){
+      EventBus.$emit('table-add-modal', areaId);
     }
   }
 

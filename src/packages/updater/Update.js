@@ -8,6 +8,9 @@ export default function (Vue) {
   Vue.update = {
     userTable (){
       EventBus.$emit('update-user-table');
+    },
+    areaTablesTable (){
+      EventBus.$emit('update-area-tables-table');
     }
   }
 

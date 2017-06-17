@@ -2,32 +2,34 @@
   <div class="wrapper">
 
     <router-view></router-view>
-
+    <ModalContainer></ModalContainer>
     <notification></notification>
-    <Modal></Modal>
   </div>
 </template>
 
 <script>
   import Notification from './views/Notification.vue'
-  import Modal from './views/modals/Modals.vue'
+  import store from './vuex/store/store'
+  import ModalContainer from './containers/ModalContainer.vue'
 
   export default {
     name: 'app',
     components: {
       Notification,
-      Modal
+      ModalContainer
+    },
+
+    created: function() {
+      store.dispatch('fetchUserRole')
     }
+
   }
 </script>
-<!--
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+
+body{
+  margin: 0;
 }
-</style> -->
+</style>

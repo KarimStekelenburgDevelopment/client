@@ -2,13 +2,17 @@
  * Created by karimstekelenburg on 12/06/2017.
  */
 
+
 export default function (Vue) {
   Vue.auth = {
     setToken (token) {
+      // var x = this.$store.state.users;
+      // console.log(x)
       sessionStorage.setItem('token', token)
     },
 
     getToken () {
+
       var token = sessionStorage.getItem('token')
 
       if (!token) {

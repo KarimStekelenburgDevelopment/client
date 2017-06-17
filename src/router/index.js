@@ -7,6 +7,8 @@ import Full from '../containers/Full.vue'
 // Views
 import Dashboard from '@/views/Dashboard'
 import Users from '@/views/Users'
+import Areas from '@/views/Areas'
+
 import Login from '@/views/Login'
 
 Vue.use(Router)
@@ -34,6 +36,14 @@ export default new Router({
           path: 'users',
           name: 'Users',
           component: Users,
+          meta: {
+            forAuth: true
+          }
+        },
+        {
+          path: 'areas',
+          name: 'Areas',
+          component: Areas,
           meta: {
             forAuth: true
           }

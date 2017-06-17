@@ -54,6 +54,13 @@ export default {
 
 <style scoped>
 
+
+  @media only screen and (max-width: 991px) {
+    #menu_heading{
+      visibility:hidden;
+    }
+  }
+
   #logoutButton{
     margin-right: 10px;
   }

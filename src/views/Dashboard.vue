@@ -1,7 +1,7 @@
 <template>
   <div class="animated fadeIn">
 
-    <UserWidget/>
+    <UserWidget id="userWidget"/>
   </div>
 </template>
 
@@ -17,6 +17,19 @@
 </script>
 
 <style>
+
+  #userWidget{
+    margin: 0 auto;
+  }
+
+  @media only screen and (max-width: 400px) {
+    #userWidget{
+      margin: -15px;
+    }
+  }
+
+
+
   .card-block{
     overflow: auto;
   }

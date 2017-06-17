@@ -1,5 +1,5 @@
 <template xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-  <div id="container">
+  <div class="widgetEnclosure">
     <div class="card text-center">
       <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs">
@@ -17,16 +17,16 @@
 
       <div class="card-block">
         <!--<h4 class="card-title">Special title treatment</h4>-->
-        <UserTable v-if="(selection === 'overview')"/>
-        <UserAddForm v-if="(selection === 'add')"/>
+        <UserTable id="userTable" v-if="(selection === 'overview')"/>
+        <UserAddForm id="userForm" v-if="(selection === 'add')"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import UserTable from '../components/UserTable.vue'
-  import UserAddForm from '../components/UserAddForm.vue'
+  import UserTable from './UserWidgetComponents/UserTable.vue'
+  import UserAddForm from './UserWidgetComponents/UserAddForm.vue'
 
   export default {
     name: 'app-user-widget',
@@ -69,13 +69,23 @@
 
 <style scoped>
 
-  #container{
-    width: 500px;
+  .widgetEnclosure{
+    max-width: 400px;
+    max-height: 2vh;
+
+  }
+
+  #userTable{
+    /*margin-left: 100px;*/
+  }
+
+  #userForm{
+    margin: 0 auto;
   }
 
 
   .card-block {
-    padding: 0;
+    padding: 10px;
     /*padding-top: 100px;*/
   }
 </style>

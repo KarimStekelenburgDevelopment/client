@@ -1,12 +1,13 @@
 <template>
   <div class="app">
     <AppHeader/>
+
     <div class="app-body">
       <Sidebar/>
       <main class="main">
         <breadcrumb :list="list"/>
         <div class="container-fluid">
-          <router-view me></router-view>
+          <router-view me id="sexy" @click="sidebarToggle"></router-view>
         </div>
       </main>
 
@@ -37,6 +38,17 @@ export default {
     AppFooter,
     Breadcrumb
   },
+  methods: {
+    click () {
+      // do nothing
+    },
+    sidebarToggle (e) {
+      e.preventDefault()
+      document.body.classList.toggle('sidebar-hidden')
+    },
+  },
+
+
   computed: {
     name () {
       return this.$route.name
@@ -50,5 +62,8 @@ export default {
 </script>
 
 <style>
+ .container-fluid{
+   padding: 0;
 
+ }
 </style>
