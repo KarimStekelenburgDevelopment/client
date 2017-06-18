@@ -11,7 +11,17 @@ export default function (Vue) {
     },
     areaTablesTable (){
       EventBus.$emit('update-area-tables-table');
+    },
+
+    area(){
+      EventBus.$emit('update-area')
+    },
+
+    areas(){
+      EventBus.$emit('update-areas');
     }
+
+
   }
 
 

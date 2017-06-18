@@ -3,8 +3,8 @@
     <h4 style="text-align: left; float: left">Users</h4>
 
 
-    <select class="dropdown" id="exampleSelect1" @change="addUser()" v-model="selectedUser">
-      <option selected disabled hidden>Add user</option>
+    <select id="exampleSelect1" @change="addUser()" v-model="selectedUser">
+      <option selected disabled hidden>Choose here</option>
       <option v-for="user in avalibleUsers"
               :value="user" >
         {{ user.username }}
@@ -25,7 +25,7 @@
       <!--<div id="tableBody">-->
 
       <tbody>
-      <tr v-for="user in users">
+      <tr v-for="user in users" v-cloak>
         <td class="tableText">{{user.username}}</td>
         <td class="vertAlign">
           <button
@@ -137,11 +137,13 @@
 </script>
 
 <style scoped>
-
+  [v-cloak] {
+    display: none;
+  }
   #exampleSelect1{
     float: right;
     margin-top: 5px;
-    width: 20px;
+    width: 100px;
   }
 
   .vertAlign {

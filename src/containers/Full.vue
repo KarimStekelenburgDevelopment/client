@@ -5,8 +5,8 @@
     <div class="app-body">
       <Sidebar/>
       <main class="main">
-        <breadcrumb :list="list"/>
-        <div class="container-fluid">
+        <breadcrumb id="bc" :list="list"/>
+        <div class="container-fluid" id="fluidContainer">
           <router-view me id="sexy" @click="sidebarToggle"></router-view>
         </div>
       </main>
@@ -62,8 +62,17 @@ export default {
 </script>
 
 <style>
- .container-fluid{
-   padding: 0;
 
- }
+  @media only screen and (max-width: 530px) {
+    #bc{
+      margin-bottom: 0;
+    }
+
+    #fluidContainer{
+      padding: 0;
+
+    }
+  }
+
+
 </style>

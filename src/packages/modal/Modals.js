@@ -14,6 +14,15 @@ export default function (Vue) {
     },
     showAddTableModal (areaId){
       EventBus.$emit('table-add-modal', areaId);
+    },
+    showEditAreaModal (areaId){
+      EventBus.$emit('area-edit-modal', areaId);
+    },
+    showAddAreaModal (){
+      EventBus.$emit('area-add-modal');
+    },
+    showAreaDeleteWarning (areaId){
+      EventBus.$emit('delete-area-modal', areaId);
     }
   }
 

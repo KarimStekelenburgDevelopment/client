@@ -21,8 +21,8 @@ Vue.use(Update);
 Vue.use(store);
 
 // set server root urlzz
-// Vue.http.options.root = 'http://localhost:8080'; // development server
-Vue.http.options.root = 'https://mysterious-woodland-66869.herokuapp.com'; // deployment server
+Vue.http.options.root = 'http://localhost:8080'; // development server
+// Vue.http.options.root = 'https://mysterious-woodland-66869.herokuapp.com'; // deployment server
 
 // set authorization for all calls
 Vue.http.headers.common['Authorization'] = Vue.auth.getToken();
